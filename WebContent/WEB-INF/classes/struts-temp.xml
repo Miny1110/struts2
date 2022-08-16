@@ -5,7 +5,7 @@
  
  <struts>
  
- 	<package name="temp" extends="struts" namespace="/temp">
+ 	<package name="temp" extends="struts-default" namespace="/temp">
  	
  	</package>
  

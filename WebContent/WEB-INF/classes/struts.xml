@@ -13,4 +13,8 @@
  	</global-results>
  </package>
  
+ 
+ <include file="struts-test.xml"/>
+ 
+ 
  </struts>
