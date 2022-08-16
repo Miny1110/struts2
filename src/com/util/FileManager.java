@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FileManager {
 	
 	//파일 업로드
-	public static String doFileUpload(File upload, String path) throws Exception{
+	public static String doFileUpload(File upload, String originalFileName, String path) throws Exception{
 		
 		//새로운 파일의 이름을 저장할 변수
 		String newFileName;
@@ -21,9 +21,6 @@ public class FileManager {
 			return null;
 		}
 		
-		
-		//클라이언트가 업로드한 파일 이름
-		String originalFileName = upload.getFileName();
 		
 		if(originalFileName.equals("")) {
 			return null;
@@ -59,10 +56,18 @@ public class FileManager {
 		String fullFilePath = path + File.separator + newFileName;
 				
 		
-		//struts1의 파일 업로드
-		byte[] fileData = upload.getFileData();
+		//struts2의 파일 업로드
+		FileInputStream fis = new FileInputStream(upload);
 		FileOutputStream fos = new FileOutputStream(fullFilePath);
-		fos.write(fileData);
+		
+		int data = 0;
+		
+		byte[] buffer = new byte[1024];
+		while((data=fis.read(buffer, 0, 1024))!=-1) {
+			fos.write(buffer,0,data);
+		}
+		
+		fis.close();
 		fos.close();
 		
 		return newFileName;
