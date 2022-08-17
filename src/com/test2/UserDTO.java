@@ -6,7 +6,7 @@ public class UserDTO {
 	private String userPwd;
 	private String userName;
 	
-	private String mode;
+	private String mode; //일종의 키값
 
 	public String getUserId() {
 		return userId;

@@ -15,6 +15,7 @@
 아이디: ${dto.userId }<br/>
 패스워드: ${dto.userPwd }<br/>
 이름: ${dto.userName }<br/>
+메시지: ${message }<br/>
 
 </body>
 </html>

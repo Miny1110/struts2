@@ -22,7 +22,9 @@
 </package>
 
 
+<!-- name은 중복되면 안된다. namespace는 중간주소 -->
 <package name="test2" extends="struts-default" namespace="/modelDri">
+	<!-- 주소에 name이 있으면 해당 class의 해당 method로 가라 -->
 	<action name="write" method="created" class="com.test2.TestAction">
 		<result name="input">/test2/write.jsp</result>
 		<result name="success">/test2/view.jsp</result>
