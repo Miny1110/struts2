@@ -74,7 +74,7 @@ public class BoardAction extends ActionSupport
 		
 		String cp = request.getContextPath();
 		
-		int numPerPage = 3;
+		int numPerPage = 5;
 		int totalPage = 0;
 		int totalDataCount = 0;
 		
@@ -242,26 +242,84 @@ public class BoardAction extends ActionSupport
 	}
 	
 	
+	public String updated() throws Exception{
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		CommonDAO dao = CommonDAOImpl.getInstance();
+		
+		if(dto==null || dto.getMode()==null || dto.getMode().equals("")) {
+		
+			dto = (BoardDTO)dao.getReadData("board.readData",dto.getBoardNum());
+			
+			request.setAttribute("mode", "update");
+			request.setAttribute("pageNum", dto.getPageNum());
+			
+			return INPUT;
+		}
+		
+		dao.updateData("board.updateData", dto);
+		
+		return SUCCESS;
+	}
 	
 	
+	public String reply() throws Exception{
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		CommonDAO dao = CommonDAOImpl.getInstance();
+		
+		if(dto==null || dto.getMode()==null || dto.getMode().equals("")) {
+			
+			//부모의 데이터 읽어옴
+			dto = (BoardDTO)dao.getReadData("board.readData",dto.getBoardNum());
+			
+			String temp = "\r\n\r\n-------------------------------------------\r\n\r\n";
+			temp += "[답변]\r\n";
+			
+			//부모데이터를 변경해서 답변데이터로 created.jsp에 출력
+			dto.setSubject("[답변]" + dto.getSubject());
+			dto.setContent(dto.getContent() + temp);
+			dto.setName("");
+			dto.setEmail("");
+			dto.setPwd("");
+			
+			request.setAttribute("mode", "reply");
+			request.setAttribute("pageNum", dto.getPageNum());
+			
+			return INPUT;
+		}
+		
+		//orderNo 변경
+		Map<String, Object> hMap = new HashMap<>();
+		hMap.put("groupNum", dto.getGroupNum());
+		hMap.put("orderNo", dto.getOrderNo());
+		
+		dao.updateData("board.orderNoUpdate", hMap);
+		
+		//답변을 입력
+		int maxBoardNum = dao.getIntValue("board.maxBoardNum");
+		
+		dto.setBoardNum(maxBoardNum+1);
+		dto.setIpAddr(request.getRemoteAddr());
+		dto.setDepth(dto.getDepth()+1);
+		dto.setOrderNo(dto.getOrderNo()+1);
+		
+		dao.insertData("board.insertData", dto);
+		
+		return SUCCESS;
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public String deleted() throws Exception{
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		CommonDAO dao = CommonDAOImpl.getInstance();
+		
+		dao.deleteData("board.deleteData", dto.getBoardNum());
+		
+		request.setAttribute("pageNum", dto.getPageNum());
+		
+		return SUCCESS;
+	}
 	
 }

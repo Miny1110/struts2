@@ -1,4 +1,5 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% 
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -167,23 +168,42 @@
 			
 			<!-- 수정용 -->
 			<input type="hidden" name="boardNum" value="${dto.boardNum }">
-			<input type="hidden" name="pageNum" value="${dto.pageNum }">
+			<input type="hidden" name="pageNum" value="${pageNum }">
 		
 			<!-- 댓글용 -->
 			<input type="hidden" name="groupNum" value="${dto.groupNum }">
 			<input type="hidden" name="orderNo" value="${dto.orderNo }">
 			<input type="hidden" name="depth" value="${dto.depth }">
-			<input type="hidden" name="parent" value="${dto.parent }">
+			<input type="hidden" name="parent" value="${dto.boardNum }">
 			
 			<!-- 이 창이 입력인지 수정인지 댓글인지 구분하기 위해 필요 -->
 			<input type="hidden" name="mode" value="${mode }">
 			
-			<input type="button" value=" 등록하기 "
-			class="btn2" onclick="sendIt();" />
-			<input type="reset" value=" 다시입력 " 
-			class="btn2" onclick="document.myForm.subject.focus();"/>
-			<input type="button" value=" 작성취소 "
-			class="btn2" onclick="location.href='<%=cp %>/bbs/list.action';"/>
+			<c:if test="${mode=='create' }">
+				<input type="button" value=" 등록하기 "
+				class="btn2" onclick="sendIt();" />
+				<input type="reset" value=" 다시입력 " 
+				class="btn2" onclick="document.myForm.subject.focus();"/>
+				<input type="button" value=" 작성취소 "
+				class="btn2" onclick="location.href='<%=cp %>/bbs/list.action?pageNum=${pageNum }';"/>
+			</c:if>
+			
+			<c:if test="${mode=='update' }">
+				<input type="button" value=" 수정하기 "
+				class="btn2" onclick="sendIt();" />
+				<input type="button" value=" 수정취소 "
+				class="btn2" onclick="location.href='<%=cp %>/bbs/list.action?pageNum=${pageNum }';"/>
+			</c:if>
+			
+			<c:if test="${mode=='reply' }">
+				<input type="button" value=" 답변등록하기 "
+				class="btn2" onclick="sendIt();" />
+				<input type="reset" value=" 다시입력 " 
+				class="btn2" onclick="document.myForm.subject.focus();"/>
+				<input type="button" value=" 작성취소 "
+				class="btn2" onclick="location.href='<%=cp %>/bbs/list.action?pageNum=${pageNum }';"/>
+			</c:if>
+			
 		</div>
 	
 	</form>

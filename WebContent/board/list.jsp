@@ -69,8 +69,17 @@
 		<c:forEach var="dto" items="${lists }">
 			<dl>
 				<dd class="num">${dto.listNum }</dd>
-				<dd class="subject"><a href="${urlArticle }&boardNum=${dto.boardNum }">
-					${dto.subject }</a></dd>
+				<dd class="subject">
+				<c:if test="${dto.depth!=0 }">
+					<c:forEach var="i" begin="1" end="${dto.depth }" step="1">
+						&nbsp;
+					</c:forEach>
+					<img src="<%=cp%>/board/image/re.gif">
+				</c:if>
+				
+				<a href="${urlArticle }&boardNum=${dto.boardNum }">
+					${dto.subject }</a>
+				</dd>
 				<dd class="name">${dto.name }</dd>
 				<dd class="created">${dto.created }</dd>
 				<dd class="hitCount">${dto.hitCount }</dd>

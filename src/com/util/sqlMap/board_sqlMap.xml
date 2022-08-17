@@ -79,7 +79,26 @@
 <!-- ((groupNum=#groupNum# and orderNo>#orderNo#) : 같은 그룹끼리
 or (groupNum<#groupNum#)) : 그룹 다를때 -->
 
-
-
 </select>
+
+
+<update id="updateData" parameterClass="boardDTO">
+	update bbs set name=#name#,subject=#subject#,email=#email#,
+	content=#content#,pwd=#pwd# where boardNum=#boardNum#
+</update>
+
+
+<update id="orderNoUpdate" parameterClass="map">
+	update bbs set orderNo=orderNo+1
+	where groupNum=#groupNum# and orderNo>#orderNo#
+</update>
+
+
+<delete id="deleteData" parameterClass="int">
+	delete bbs where boardNum in
+	(select boardNum from bbs start with boardNum=#boardNum#
+	connect by prior boardNum=parent)
+</delete>
+
+
 </sqlMap>
