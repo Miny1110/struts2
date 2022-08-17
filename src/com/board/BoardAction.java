@@ -74,17 +74,17 @@ public class BoardAction extends ActionSupport
 		
 		String cp = request.getContextPath();
 		
-		int numPerPage = 10;
+		int numPerPage = 3;
 		int totalPage = 0;
 		int totalDataCount = 0;
 		
 		int currentPage = 1;
 		
-		if(dto.getPageNum()!=null&&dto.getPageNum().equals("")) {
+		if(dto.getPageNum()!=null && !dto.getPageNum().equals("")) {
 			currentPage = Integer.parseInt(dto.getPageNum());
 		}
 		
-		if(dto.getSearchValue()==null||dto.getSearchValue().equals("")) {
+		if(dto.getSearchValue()==null || dto.getSearchValue().equals("")) {
 			dto.setSearchKey("subject");
 			dto.setSearchValue("");
 		}
@@ -156,5 +156,112 @@ public class BoardAction extends ActionSupport
 		return SUCCESS;
 		
 	}
+	
+	
+	public String article() throws Exception{
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		CommonDAO dao = CommonDAOImpl.getInstance();
+		
+		/*
+		System.out.println(dto.getSearchKey() + "-------------------");
+		System.out.println(dto.getSearchValue());
+		System.out.println(dto.getPageNum());
+		System.out.println(dto.getBoardNum());
+		*/
+		
+		//dto의 값을 미리 변수에 담아놓고 사용
+		String searchKey = dto.getSearchKey();
+		String searchValue = dto.getSearchValue();
+		String pageNum = dto.getPageNum();
+		int boardNum = dto.getBoardNum();
+		
+		if(searchValue==null || searchValue.equals("")) {
+			searchKey = "subject";
+			searchValue = "";
+		}
+		
+		if(request.getMethod().equalsIgnoreCase("GET")) {
+			searchValue = URLDecoder.decode(searchValue,"UTF-8");
+		}
+		
+		dao.updateData("board.hitCountUpdate", boardNum);
+		
+		dto = (BoardDTO)dao.getReadData("board.readData",boardNum);		
+		
+		/*
+		System.out.println(dto.getSearchKey() + "-------------------");
+		System.out.println(dto.getSearchValue());
+		System.out.println(dto.getPageNum());
+		System.out.println(dto.getBoardNum());
+		*/
+		
+		int lineSu = dto.getContent().split("\r\n").length;
+		
+		dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
+		
+		Map<String, Object> hMap = new HashMap<>();
+		hMap.put("searchKey", searchKey);
+		hMap.put("searchValue", searchValue);
+		hMap.put("groupNum", dto.getGroupNum());
+		hMap.put("orderNo", dto.getOrderNo());
+		
+		BoardDTO preDTO = (BoardDTO)dao.getReadData("board.preReadData",hMap);
+		int preBoardNum = 0;
+		String preSubject = "";
+		if(preDTO!=null) {
+			preBoardNum = preDTO.getBoardNum();
+			preSubject = preDTO.getSubject();
+		}
+		
+		BoardDTO nextDTO = (BoardDTO)dao.getReadData("board.nextReadData",hMap);
+		int nextBoardNum = 0;
+		String nextSubject = "";
+		if(nextDTO!=null) {
+			nextBoardNum = nextDTO.getBoardNum();
+			nextSubject = nextDTO.getSubject();
+		}
+		
+		String params = "pageNum=" + pageNum;
+		
+		if(!searchValue.equals("")) {
+			params += "&searchKey=" + searchKey;
+			params += "&searchValue=" + URLEncoder.encode(searchValue,"UTF-8");
+		}
+		
+		request.setAttribute("preBoardNum", preBoardNum);
+		request.setAttribute("preSubject", preSubject);
+		request.setAttribute("nextBoardNum", nextBoardNum);
+		request.setAttribute("nextSubject", nextSubject);
+		request.setAttribute("params", params);
+		request.setAttribute("lineSu", lineSu);
+		request.setAttribute("pageNum", pageNum);
+		
+		return SUCCESS;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

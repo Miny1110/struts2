@@ -41,4 +41,45 @@
 </select>
 
 
+<update id="hitCountUpdate" parameterClass="int">
+	update bbs set hitCount=hitCount+1 where boardNum=#boardNum#
+</update>
+
+
+<select id="readData" parameterClass="int" resultClass="boardDTO">
+	select boardNum,name,pwd,email,subject,content,ipAddr,
+	groupNum,depth,orderNo,parent,hitCount,created
+	from bbs where boardNum=#boardNum#
+</select>
+
+
+<select id="preReadData" parameterClass="map" resultClass="boardDTO">
+	select data.* from (
+	select boardNum,subject from bbs
+	where ($searchKey$ like '%'||#searchValue#||'%') and 
+<![CDATA[	
+	((groupNum=#groupNum# and orderNo<#orderNo#) 
+	or (groupNum>#groupNum#))
+	order by groupNum asc, orderNo desc) data
+	where rownum=1
+]]>
+</select>
+
+
+<select id="nextReadData" parameterClass="map" resultClass="boardDTO">
+	select data.* from (
+	select boardNum,subject from bbs
+	where ($searchKey$ like '%'||#searchValue#||'%') and 
+<![CDATA[	
+	((groupNum=#groupNum# and orderNo>#orderNo#)
+	or (groupNum<#groupNum#))
+	order by groupNum desc, orderNo asc) data
+	where rownum=1
+]]>
+<!-- ((groupNum=#groupNum# and orderNo>#orderNo#) : 같은 그룹끼리
+or (groupNum<#groupNum#)) : 그룹 다를때 -->
+
+
+
+</select>
 </sqlMap>
