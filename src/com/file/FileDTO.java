@@ -3,7 +3,7 @@ package com.file;
 import java.io.File;
 
 public class FileDTO {
-
+	
 	private int listNum;
 	
 	private int num;
@@ -11,12 +11,11 @@ public class FileDTO {
 	private String saveFileName;
 	private String originalFileName;
 	
-	private String urlFile; //파일의 경로
+	private String urlFile;
 	
 	private File upload;
 	private String uploadFileName;
 	private String mode;
-	
 	
 	public int getListNum() {
 		return listNum;
@@ -71,6 +70,5 @@ public class FileDTO {
 	}
 	public void setMode(String mode) {
 		this.mode = mode;
-	}
-	
+	}	
 }

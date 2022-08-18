@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -11,10 +11,10 @@
 <title>파일 업로드</title>
 
 <link rel="stylesheet" href="<%=cp%>/data/css/style.css" type="text/css"/>
-<script type="text/javascript" src="<%=cp %>/data/js/util.jsp"/>
+<script type="text/javascript" src="<%=cp%>/data/js/util.js"></script>
 
 <script type="text/javascript">
-	
+
 	function sendIt(){
 		
 		var f = document.myForm;
@@ -22,21 +22,19 @@
 		str = f.subject.value;
 		str = str.trim();
 		if(!str){
-			alert("제목을 입력하세요");
+			alert("제목을 입력하세요.");
 			f.subject.focus();
 			return;
 		}
 		f.subject.value = str;
 		
-		str = f.upload.value;
-		str = str.trim();
-		if(!str){
-			alert("업로드할 파일을 선택하세요");
+		
+		if(!f.upload.value){
+			alert("업로드할 파일을 선택하세요.");
 			f.upload.focus();
 			return;
 		}
-		f.upload.value = str;
-				
+						
 		f.action = "<%=cp%>/fileTest/save.action";
 		f.submit();
 		
@@ -47,17 +45,18 @@
 </head>
 <body>
 
-<table width="600" border="2" cellpadding="0" cellspacing="0" bordercolor="#d6d4a6" align="center">
+<table width="600" border="2" cellpadding="0" cellspacing="0" 
+	bordercolor="#d6d4a6" align="center">
 <tr height="40">
 	<td style="padding-left: 20px;">
-		<b>파일 업로드</b>
+	<b>파일 업로드</b>
 	</td>
 </tr>
 </table>
 
 <br/>
 
-<form action="" method="host" name="myForm" enctype="mutlipart/form-data">
+<form action="" method="post" name="myForm" enctype="multipart/form-data">
 
 <table width="600" border="0" cellpadding="0" cellspacing="3" align="center">
 
@@ -68,7 +67,7 @@
 	제&nbsp;&nbsp;&nbsp;&nbsp;목
 	</td>
 	<td width="80%" style="padding-left: 10px;">
-		<input type="text" name="subject" size="74" maxlength="100" class="boxTF">
+	<input type="text" name="subject" size="74" maxlength="100" class="boxTF"/>
 	</td>
 </tr>
 
@@ -79,8 +78,8 @@
 	첨부파일
 	</td>
 	<td width="80%" style="padding-left: 10px;">
-		<input type="file" name="upload" size="85" maxlength="100" class="boxTF"
-		style="height: 20px;">
+	<input type="file" name="upload" size="58" maxlength="100" class="boxTF"
+	style="height: 20px;"/>
 	</td>
 </tr>
 
@@ -88,22 +87,36 @@
 
 </table>
 
-
 <table width="600" border="0" cellpadding="0" cellspacing="3" align="center">
 <tr align="center">
-	<td headers="40">
-		<input type="hidden" name="mode" value="save">
-		
-		<input type="button" value="등록하기" class="btn1" onclick="sendIt();">
-		<input type="button" value="작성취소" class="btn1" 
-		onclick="location.href='<%=cp%>/fileTest/list.action';">
+	<td height="40">
+	<input type="hidden" name="mode" value="save"/>
+	
+	<input type="button" value="등록하기" class="btn1" onclick="sendIt();"/>
+	<input type="button" value="작성취소" class="btn1" 
+	onclick="location.href='<%=cp%>/fileTest/list.action';"/>
 	</td>
 </tr>
-
+	
 </table>
 
 </form>
 
-
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
