@@ -21,7 +21,7 @@
 		xmlHttp = createXMLHttpRequest(); //브라우저 여러개 고려하려면 이거 쓰면 됨
 		
 		//ajax 구현 방법에는 세가지 방법이 있음 (js로 구현, jquery로 구현, ajax로 구현)
-		//자바스크립트로 아작스 구현하기
+		//1. 자바스크립트로 아작스 구현하기
 		var query = "";
 		var su1 = document.getElementById("su1").value; 
 		var su2 = document.getElementById("su2").value; 
@@ -79,7 +79,6 @@
 
 </head>
 <body>
-
 <input type="text" id="su1">
 <select id="oper">
 	<option value="hap">더하기</option>
