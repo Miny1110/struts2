@@ -17,28 +17,49 @@ $(document).ready(function(){
 	
 	$("#saveButton").click(function(){
 		
-		var value1 = $("#userId").val();
-		var value2 = $("#userPwd").val();
+		param = "userId=" + $("#userId").val() + "&userPwd=" + $("#userPwd").val();
 		
-		//Get방식
-		$.get("test3_ok.jsp",{userId:value1,userPwd:value2},function(args){
-			$("#resultDIV").html(args);
-		})
-		
-		
-		/*Post방식
-		$.post("test3_ok.jsp",{userId:value1,userPwd:value2},function(args){
-			#("resultDIV").html(args);
-		})*/
-		
+		$.ajax({
+			
+			type:"post",
+			url:"test4_ok.jsp",
+			data:param,
+			success:function(data){
+				$("#resultDIV").html(data);
+			},
+			beforeSend:showRequest,
+			error:function(e){
+				alert(e.responseText);
+			}
+		});
 	});
+	
+
+
+	function showRequest(){
+	
+		var flag = true;
+		
+		if(!$("#userId").val()){
+			alert("아이디를 입력하세요");
+			$("#userId").focus();
+			return false;
+		}
+		
+		if(!$("#userPwd").val()){
+			alert("패스워드를 입력하세요");
+			$("#userPwd").focus();
+			return false;
+		}
+		return flag;
+	}
+
 	
 	$("#clearButton").click(function(){
 		
 		$("#resultDIV").empty();
 		
 	});
-	
 });
 
 </script>
