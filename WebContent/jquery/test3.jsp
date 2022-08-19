@@ -13,6 +13,46 @@
 <script type="text/javascript" src="<%=cp%>/data/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/data/js/jquery-ui.min.js"></script>
 
+<script type="text/javascript">
+	
+$(function(){
+		
+	$("#dialog").hide();
+	
+	
+	$("#btn1").click(function(){
+		$("#dialog").dialog();
+	});
+	
+	
+	$("#btn2").click(function(){
+		$("#dialog").dialog({
+			height:240,
+			width:300,
+			modal:true
+		});
+	});
+	
+	
+	$("#btn3").click(function(){
+		$("<div>").dialog({
+			modal:true,
+			open:function(){
+				$(this).load("test.jsp");
+			},
+			height:400,
+			width:400,
+			title:"외부파일 창 띄우기"
+		});
+	});
+	
+	
+		
+});
+	
+	
+</script>
+
 </head>
 <body>
 
@@ -24,6 +64,7 @@
 <div>
 	<input type="button" value="모달리스" id="btn1"><br/>
 	<input type="button" value="모달" id="btn2"><br/>
+	<input type="button" value="창띄우기" id="btn3"><br/>
 </div>
 
 </body>
