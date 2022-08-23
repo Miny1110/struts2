@@ -32,7 +32,7 @@
 			$.ajax({
 				
 				type:"POST",
-				url:"<%=cp%>/guest/create.action",
+				url:"<%=cp%>/guest/created.action",
 				data:params,
 				success:function(args){
 					
@@ -89,9 +89,21 @@
 
 	function listPage(page){
 		
+		var url = "<%=cp%>/guest/list.action";
+		
+		$.post(url,{pageNum:page},function(args){
+			$("#listData").html(args);
+		});
+		
 	}
 	
 	function deleteData(num,page){
+		
+		var url = "<%=cp%>/guest/deleted.action";
+		
+		$.post(url,{num:num,pageNum:page},function(args){
+			$("#listData").html(args);
+		});
 		
 	}
 

@@ -27,6 +27,7 @@
  
  <include file="struts-board.xml"/>
  <include file="struts-file.xml"/>
+ <include file="struts-iguest.xml"/>
  
  
  </struts>

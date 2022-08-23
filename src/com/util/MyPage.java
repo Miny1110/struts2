@@ -176,7 +176,7 @@ public class MyPage {
 				strList += "<font color='Fuchsia'>" + page + "</font>&nbsp;";
 			}else {
 				strList += "<a onclick='listPage(" 
-						+ page + ");" + page + "</a>&nbsp;";
+						+ page + ");'>" + page + "</a>&nbsp;";
 			}
 			
 			page++;
